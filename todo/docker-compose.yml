@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:13 # You can specify a version here, for example, "postgres:13"
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=myuser # Database user
+      - POSTGRES_PASSWORD=mypassword # Database password
+      - POSTGRES_DB=mydatabase # Database name to create
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" # Expose the PostgreSQL port to the host (default is 5432)
+    networks:
+      - mynetwork
+  # You can also add other services like your application here
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
