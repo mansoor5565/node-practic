@@ -1,7 +1,8 @@
 import { DataTypes } from 'sequelize';
-import {sequelize} from '../config/database.js';
+import { sequelize } from '../config/database.js';
+import User from './user.js';
 
-export default Todo = sequelize.define('Todo', {
+const Todo = sequelize.define('Todo', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -14,9 +15,22 @@ export default Todo = sequelize.define('Todo', {
     completed: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id',
+        },
+        onDelete: 'CASCADE',
     }
 },
     {
         timestamp: true,
     }
 );
+
+Todo.belongsTo(User, { foreignKey: 'userId' });
+
+export default Todo;
