@@ -1,7 +1,8 @@
-import Todo from "../models/Todo";
+import { where } from "sequelize";
+import Todo from "../models/Todo.js";
 export const list = async (req, res) => {
     try {
-        const data = await Todo.findAll();
+        const data = await Todo.findAll({where: {userId:req.user.id}});
         return res.status(200).json({ data: data });
     } catch (error) {
         console.error(error);
@@ -11,7 +12,7 @@ export const list = async (req, res) => {
 export const getById = async (req, res) => {
     const id = req.params.id;
     try {
-        const data = await Todo.findByPk(id);
+        const data = await Todo.findOne({ where: { id: id, userId:req.user.id } });
         if (!data) {
             return res.status(404).json({ message: 'Item not found' });
         }
@@ -29,6 +30,7 @@ export const create = async (req, res) => {
         const newToList = {
             title: title,
             completed: completed,
+            userId: req.user.id
         };
         const data = await Todo.create(newToList);
         return res.status(201).json({ message: "New item added to to-do list", data });
@@ -42,7 +44,7 @@ export const update = async (req, res) => {
     const { title, completed } = req.body;
     const id = req.params.id;
     try {
-        const data = await Todo.findByPk(id);
+        const data = await Todo.findOne({ where: { id: id, userId:req.user.id } });
         if (!data) {
             return res.status(404).json({ message: 'Item not found' });
         }
@@ -63,7 +65,7 @@ export const update = async (req, res) => {
 export const remove = async (req, res) => {
     const id = req.params.id;
     try {
-        const data = await Todo.findByPk(id);
+        const data = await Todo.findOne({ where: { id: id, userId:req.user.id } });
         if (!data) {
             return res.status(404).json({ message: 'Item not found' });
         }

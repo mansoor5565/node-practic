@@ -27,6 +27,4 @@ const User = sequelize.define('User', {
     }
 );
 
-User.hasMany(Todo, { foreignKey: 'userId', onDelete: 'CASCADE' });
-
 export default User;

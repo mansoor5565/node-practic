@@ -1,16 +1,16 @@
 import express from 'express';
-import router from express.Router();
-import { create, getById, list, remove, update } from '../controller/toDoController';
+import { create, getById, list, remove, update } from '../controller/toDoController.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
+const router = express.Router();
+router.get('/',authMiddleware, list);
 
-router.get('/todos', list);
+router.get('/:id',authMiddleware,  getById);
 
-router.get('/todos/:id', getById);
+router.post('/',authMiddleware,  create);
 
-router.post('/todos', create);
+router.put('/:id',authMiddleware,  update);
 
-router.put('/todos/:id', update);
-
-router.delete('/todos/:id', remove);
+router.delete('/:id',authMiddleware,  remove);
 
 export default router;

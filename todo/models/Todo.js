@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/database.js';
-import User from './user.js';
+import User from './User.js';
 
 const Todo = sequelize.define('Todo', {
     id: {
@@ -19,11 +19,6 @@ const Todo = sequelize.define('Todo', {
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: User,
-            key: 'id',
-        },
-        onDelete: 'CASCADE',
     }
 },
     {
@@ -31,6 +26,5 @@ const Todo = sequelize.define('Todo', {
     }
 );
 
-Todo.belongsTo(User, { foreignKey: 'userId' });
 
 export default Todo;
